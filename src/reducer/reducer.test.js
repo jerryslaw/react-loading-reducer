@@ -1,4 +1,5 @@
 import noop from 'lodash/noop';
+import { Record, Iterable } from 'immutable';
 import reducerWrapper from './reducer';
 
 const keyName = 'keyName';
@@ -8,8 +9,8 @@ const invalidActions = ['action_1', 1, new Function()];
 
 const ACTION_NAME = 'ACTION';
 const ACTION = {type: 'ACTION_NAME'};
-const STATE = {item: 1};
-const reducer = (state, action) => {
+const STATE = new Record({item: 1});
+const reducer = (state = new STATE(), action) => {
     if (action.type === ACTION_NAME) {
         return state;
     }
@@ -25,15 +26,18 @@ describe('Loading reducer test::', () => {
         expect(typeof possibleReducer).toBe('function');
     });
     it('should return undefined when some of arguments are invalid', () => {
-       const possibleReducer = reducerWrapper(invalidKeyName, actions, invalidActions, noop)(STATE, ACTION);
+       const possibleReducer = reducerWrapper(invalidKeyName, actions, invalidActions, noop)(new STATE(), ACTION);
        expect(typeof possibleReducer).toBe('undefined');
     });
-    it('should return state branch as object when valid arguments are passed to returned function', () => {
-        const possibleStateBranch = reducerWrapper(keyName, actions, actions, reducer)(STATE, ACTION);
-        expect(typeof possibleStateBranch).toBe('object');
+    it('should return state branch as object or Immutable.Iterable when valid arguments are passed to returned function', () => {
+        const possibleStateBranch = reducerWrapper(keyName, actions, actions, reducer)(new STATE(), ACTION);
+        const isObj = typeof possibleStateBranch === 'object';
+        const isIterable = Iterable.isIterable(possibleStateBranch);
+        const isRecord = possibleStateBranch instanceof Record;
+        expect(isObj || isIterable || isRecord).toBeTruthy;
     });
     it('should return state that is equal to previous', () => {
-        const nextState = reducerWrapper(keyName, actions, actions, reducer)(STATE, ACTION);
-        expect(nextState === STATE).toBeTruthy;
+        const nextState = reducerWrapper(keyName, actions, actions, reducer)(new STATE(), ACTION);
+        expect(nextState === new STATE()).toBeTruthy;
     })
 });

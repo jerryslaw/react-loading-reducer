@@ -1,5 +1,5 @@
 import curry from 'lodash/curry';
-import { Iterable } from 'immutable';
+import { Iterable, Record } from 'immutable';
 import errorHandler from '../errorHandler';
 
 const getNoKeyError = keyName => new Error(`There is no ${keyName} key in your state branch. The new one will be set`);
@@ -14,7 +14,7 @@ export default curry((keyName, loadingActions, notLoadingActions, reducer) => (s
     const includesLoadingAction = loadingActions.includes(action.type);
     const includesNotLoadingAction = notLoadingActions.includes(action.type);
 
-    if (Iterable.isIterable(state)) {
+    if (Iterable.isIterable(state) || state instanceof Record) {
 
         if (!state.has(keyName)) {
             console.error(getNoKeyError(keyName));
