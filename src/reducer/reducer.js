@@ -22,17 +22,9 @@ export default curry((keyName, loadingActions, notLoadingActions, reducer) => (s
 
         state = includesLoadingAction ? state.set(keyName, true) : state;
         state = includesNotLoadingAction ? state.set(keyName, false) : state;
-    } else if (typeof(state) === 'object') {
-
-        if (!state.hasOwnProperty(keyName)) {
-            console.error(getNoKeyError(keyName));
-        }
-
+    } else {
         state = includesLoadingAction ? state[keyName] = true : state;
         state = includesNotLoadingAction ? state[keyName] = false : state;
-    } else {
-        console.error('State branch should be an instance of either Object or Immutable.Iterable');
-        return;
     }
 
     return reducer(state, action);
