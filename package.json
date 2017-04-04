@@ -14,7 +14,7 @@
     "url": "https://github.com/jerryslaw/react-loading-reducer"
   },
   "keywords": [
-    "react",
+    "redux",
     "function",
     "store",
     "reducer"
