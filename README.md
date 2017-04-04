@@ -29,7 +29,7 @@ const myReducer = reducerWrapper((state, action) => {
 | stateBranchKeyName  |  `string`  | *Required.* Key name that can be seen in state branch  |
 | loadingActionNames  | `array`  | *Required.* Array of loading-like action names, that Loading Reducer will look for changing flag to *true* |
 | notLoadingActionNames  | `array`  | *Required.* Array of not loading-like action names, that Loading Reducer will look for changing flag to *false* |
-| reducer  | `function`  | *Required.* Reducer to be wrapper |
+| reducer  | `function`  | *Required.* Reducer to be wrapped |
 
 # Other
 Otherwise, this function be used for change any custom flag, like `isLogged`, etc. Let treat then this with your own way.
