@@ -1,6 +1,6 @@
 {
   "name": "redux-loading-reducer",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Simple function for changing loading-flag in store branch",
   "main": "index.js",
   "scripts": {
@@ -22,7 +22,7 @@
   "author": "Jarosław Wlazło <wlazlo@jarek@gmail.com> (https://github.com/jerryslaw)",
   "license": "MIT",
   "dependencies": {
-    "immutable": "^3.8.1",
+    "immutable": "4.0.0-rc.2",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
