@@ -1,5 +1,8 @@
 import curry from 'lodash/curry';
-import { Iterable, Record } from 'immutable';
+import cloneDeep from 'lodash/cloneDeep';
+import isObject from 'lodash/isObject';
+import { isImmutable } from 'immutable';
+
 import errorHandler from '../errorHandler';
 
 const getNoKeyError = keyName => new Error(`There is no ${keyName} key in your state branch. The new one will be set`);
@@ -11,21 +14,45 @@ export default curry((keyName, loadingActions, notLoadingActions, reducer) => (s
         return;
     }
 
+    let newState;
+
     const includesLoadingAction = loadingActions.includes(action.type);
     const includesNotLoadingAction = notLoadingActions.includes(action.type);
 
-    if (Iterable.isIterable(state) || state instanceof Record) {
+    if (isImmutable(state)) {
+        //handle Immutable state
 
         if (!state.has(keyName)) {
             console.error(getNoKeyError(keyName));
         }
 
-        state = includesLoadingAction ? state.set(keyName, true) : state;
-        state = includesNotLoadingAction ? state.set(keyName, false) : state;
+        if (includesLoadingAction) {
+            newState = state.set(keyName, true);
+        } else if (includesNotLoadingAction) {
+            newState = state.set(keyName, false);
+        } else {
+            newState = state;
+        }
+    } else if (isObject(state)) {
+        // handle non-Immutable state
+
+        newState = cloneDeep(state);
+
+        if (!state.hasOwnProperty(keyName)) {
+            console.error(getNoKeyError(keyName));
+            //set key if it doesn't exist
+            newState[keyName] = false;
+        }
+
+        if (includesLoadingAction) {
+            newState[keyName] = true;
+        } else if (includesNotLoadingAction) {
+            newState[keyName] = false;
+        }
     } else {
-        state = includesLoadingAction ? state[keyName] = true : state;
-        state = includesNotLoadingAction ? state[keyName] = false : state;
+        console.error(new Error('State must be an instance of either Immutable or Object. Previous state will be returned'));
+        newState = cloneDeep(state);
     }
 
-    return reducer(state, action);
+    return reducer(newState, action);
 })
