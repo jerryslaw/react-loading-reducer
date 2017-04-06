@@ -50,7 +50,6 @@ export default curry((keyName, loadingActions, notLoadingActions, reducer) => (s
             newState[keyName] = false;
         }
     } else {
-        console.error(new Error('State must be an instance of either Immutable or Object. Previous state will be returned'));
         newState = cloneDeep(state);
     }
 
