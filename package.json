@@ -1,6 +1,6 @@
 {
   "name": "redux-loading-reducer",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple function for changing loading-flag in store branch",
   "main": "index.js",
   "scripts": {
