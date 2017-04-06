@@ -1,13 +1,14 @@
 {
   "name": "redux-loading-reducer",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Simple function for changing loading-flag in store branch",
   "main": "index.js",
   "scripts": {
     "test": "cross-env jest",
     "test-cov": "npm run test -- --coverage",
     "build": "webpack -p",
-    "clean": "rimraf dist"
+    "compile": "cross-env babel src --out-dir lib",
+    "clean": "rimraf dist lib"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-core": "^6.24.0",
     "babel-jest": "^19.0.0",
     "babel-loader": "^6.4.1",
