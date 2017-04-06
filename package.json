@@ -1,8 +1,8 @@
 {
   "name": "redux-loading-reducer",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Simple function for changing loading-flag in store branch",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "cross-env jest",
     "test-cov": "npm run test -- --coverage",
